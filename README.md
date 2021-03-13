@@ -47,7 +47,8 @@ You input an image and the output is a point in 128 dimensional space. If you wa
 
 In order to use the Resnet CNN we need to train it with images from the celeb dataset. 
 
-This process is called ennrollment and has the following steps:
+This process is called **ennrollment** and has the following steps:
+---
 1. Define the network
   - This defines the ResNet neural network used for training the model. The first few layers are convolutional layers and the final layer is the loss metric
 2. Load the model for face landmakrs and face recognition
@@ -66,7 +67,6 @@ This process is called ennrollment and has the following steps:
 code snippet:
 
 `
-
     std::vector<std::string> names;
     std::vector<int> labels;
 
