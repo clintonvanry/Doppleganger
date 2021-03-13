@@ -26,4 +26,48 @@ In a traditional image classification pipeline, we converted the image into a fe
 
 Even though on the surface Deep Learning looks very different from the above model, there are conceptual similarities. Figure 2 reveals the Deep Learning module used by Dlib’s Face Recognition module. The architecture is based on a popular network called ResNet.
 
+![](https://github.com/clintonvanry/Doppleganger/blob/main/resnet.png)
+
+As most CNN architectures, ResNet contains a bank of Convolutional (Conv) Layers followed by a Fully Connected (FC) Layer.
+
+The bank of conv layers produce a feature vector in higher dimensional space just like the HOG descriptor. So what’s the difference between a bank of conv layers and HOG descriptor? The most important differences are
+
+HOG is a fixed descriptor. There is an exact recipe for calculating the descriptor. On the other hand, a bank of conv layers contains many convolution filters. These filters are learned from the data. So unlike HOG, they adapt based on the problem at hand.
+
+The FC layer does the same job as the SVM classifier in traditional approaches. It classifies the feature vector. In fact, sometimes the final FC layer is replaced by an SVM.
+
+Any image can be vectorized by simply storing all the pixel values in a tall vector. This vector represents a point in higher dimensional space. However, this space is not very good for measuring distances. In a face recognition application, the points representing two different images of the same person may be very far away and the points representing images of two different people may actually be close by.
+
+When we used PCA to reduce dimensionality, we hoped distances in this reduced dimensional space would be more meaningful. Similarly, with Fisher’s Linear Discriminant we tried to find a space where distances were meaningful. Both approaches work to a certain extent but the performance is by no means exceptional.
+
+Deep Metric Learning is a class of techniques that uses Deep Learning to learn a lower dimensional effective metric space where images are represented by points such that images of the same class are clustered together and images of different class are far apart. Conceptually, the goals are very similar to Fisher’s Linear Discriminant but in practice the results are vastly superior because instead of directly reducing the dimension of the pixel space, the convolution layers first calculate the meaningful features which are then implicitly used to create the metric space.
+
+Turns out we can use the same CNN architecture we use for image classification for deep metric learning.
+You input an image and the output is a point in 128 dimensional space. If you want to find how closely related two images are, you can simply find the pass both images through the CNN and obtain the two points in this 128 dimensional space. You can compare the two points using simple L2 ( Euclidean ) distance between them.
+
+In order to use the Resnet CNN we need to train it with images from the celeb dataset. 
+This process is called ennrollment and has the following steps
+1. Define the network
+  - This defines the ResNet neural network used for training the model. The first few layers are convolutional layers and the final layer is the loss metric
+2. Load the model for face landmakrs and face recognition
+  - Initialize Dlib’s Face Detector, Facial Landmark Detector and Face Recognition neural network objects
+3. Process each image in the dataset and compute descriptors
+  - Process enrollment images one by and one.
+  - Convert image from RGB to BGR, because Dlib uses BGR as default format.
+  - Detect faces in the image. For each face we will compute a face descriptor.
+  - For each face get facial landmarks.
+  - Compute face descriptor using facial landmarks. This is a 128 dimensional vector which represents a face.
+  - For each face descriptor we will also save the corresponding label
+4. Save the mapping between face ID and person
+5. Save the updated model  
+  - Now save descriptors and the descriptor-label mapping to disk.
+7. 
+
+
+
+
+
+
+
+
 
