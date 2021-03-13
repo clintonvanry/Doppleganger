@@ -66,7 +66,6 @@ This process is called **ennrollment** and has the following steps:
  
 code snippet:
 
-`
     std::vector<std::string> names;
     std::vector<int> labels;
 
@@ -139,7 +138,7 @@ code snippet:
 
     std::cout << "number of face descriptors " << faceDescriptors.size() << std::endl;
     std::cout << "number of face labels " << faceLabels.size() << std::endl;
-`
+
 
 
 
