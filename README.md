@@ -154,11 +154,16 @@ The second process is called **testing** and has the following steps:
 8. display the doppelganger
 
 code snippet:
+![](https://github.com/clintonvanry/Doppleganger/blob/main/codeSnippet.PNG)
 
+### Result
 
-
-
-
+Input image | DoppelGanger
+:---:|:---:
+shashikant-pedwal.jpg | Amitabh Bachchan
+<img height="256" alt="shashikant-pedwal.jpg" src="https://github.com/clintonvanry/Doppleganger/blob/main/celeb1.PNG"> | ![](https://github.com/clintonvanry/Doppleganger/blob/main/celeb1a.PNG)
+sofia-solares.jpg | Selena
+<img height="256" alt="sofia-solares.jpg" src="https://github.com/clintonvanry/Doppleganger/blob/main/celeb2.PNG"> | ![](https://github.com/clintonvanry/Doppleganger/blob/main/celeb2a.PNG)
 
 
 
