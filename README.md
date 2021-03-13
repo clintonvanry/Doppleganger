@@ -46,7 +46,8 @@ Turns out we can use the same CNN architecture we use for image classification f
 You input an image and the output is a point in 128 dimensional space. If you want to find how closely related two images are, you can simply find the pass both images through the CNN and obtain the two points in this 128 dimensional space. You can compare the two points using simple L2 ( Euclidean ) distance between them.
 
 In order to use the Resnet CNN we need to train it with images from the celeb dataset. 
-This process is called ennrollment and has the following steps
+
+This process is called ennrollment and has the following steps:
 1. Define the network
   - This defines the ResNet neural network used for training the model. The first few layers are convolutional layers and the final layer is the loss metric
 2. Load the model for face landmakrs and face recognition
@@ -61,7 +62,89 @@ This process is called ennrollment and has the following steps
 4. Save the mapping between face ID and person
 5. Save the updated model  
   - Now save descriptors and the descriptor-label mapping to disk.
-7. 
+`
+void enrollment(std::map<int, std::string>& labelNameMap, std::vector<matrix<float,0,1>>& faceDescriptors, std::vector<int>& faceLabels,
+                frontal_face_detector& faceDetector, const shape_predictor& landmarkDetector, anet_type& net, std::map<int,std::string>& folderImageMap)
+{
+
+    std::vector<std::string> names;
+    std::vector<int> labels;
+
+    // imagePaths: vector containing imagePaths
+    // imageLabels: vector containing integer labels corresponding to imagePaths
+    std::vector<std::string> imagePaths;
+    std::vector<int> imageLabels;
+    // variable to hold any subfolders within person subFolders
+    std::vector<std::string> folderNames;
+    getFolderAndFiles(names,labels,imagePaths,labelNameMap,imageLabels);
+
+    // process training data
+    // We will store face descriptors in vector faceDescriptors
+    // and their corresponding labels in vector faceLabels
+    //std::vector<matrix<float,0,1>> faceDescriptors;
+    //std::vector<int> faceLabels;
+
+    // iterate over images
+    for (int i = 0; i < imagePaths.size(); i++)
+    {
+        std::string imagePath = imagePaths[i];
+        int imageLabel = imageLabels[i];
+
+        std::cout << "processing: " << imagePath << std::endl;
+
+        if(!mapContainsKey(folderImageMap,imageLabel))
+        {
+            folderImageMap[imageLabel] = imagePath;
+        }
+
+        // read image using OpenCV
+        Mat im = cv::imread(imagePath, cv::IMREAD_COLOR);
+
+        // convert image from BGR to RGB
+        // because Dlib used RGB format
+        Mat imRGB;
+        cvtColor(im, imRGB, COLOR_BGR2RGB);
+
+        // convert OpenCV image to Dlib's cv_image object, then to Dlib's matrix object
+        // Dlib's dnn module doesn't accept Dlib's cv_image template
+        dlib::matrix<dlib::rgb_pixel> imDlib(dlib::mat(dlib::cv_image<dlib::rgb_pixel>(imRGB)));
+
+        // detect faces in image
+        std::vector<dlib::rectangle> faceRects = faceDetector(imDlib);
+        // Now process each face we found
+        for (int j = 0; j < faceRects.size(); j++) {
+
+            // Find facial landmarks for each detected face
+            full_object_detection landmarks = landmarkDetector(imDlib, faceRects[j]);
+
+            // object to hold preProcessed face rectangle cropped from image
+            matrix<rgb_pixel> face_chip;
+
+            // original face rectangle is warped to 150x150 patch.
+            // Same pre-processing was also performed during training.
+            extract_image_chip(imDlib, get_face_chip_details(landmarks, 150, 0.25), face_chip);
+
+            // Compute face descriptor using neural network defined in Dlib.
+            // It is a 128D vector that describes the face in img identified by shape.
+            matrix<float,0,1> faceDescriptor = net(face_chip);
+
+            // add face descriptor and label for this face to
+            // vectors faceDescriptors and faceLabels
+            faceDescriptors.push_back(faceDescriptor);
+            // add label for this face to vector containing labels corresponding to
+            // vector containing face descriptors
+            faceLabels.push_back(imageLabel);
+        }
+    }
+
+    std::cout << "number of face descriptors " << faceDescriptors.size() << std::endl;
+    std::cout << "number of face labels " << faceLabels.size() << std::endl;
+
+}
+`
+
+
+
 
 
 
