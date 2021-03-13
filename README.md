@@ -156,7 +156,7 @@ The second process is called **testing** and has the following steps:
 code snippet:
 ![](https://github.com/clintonvanry/Doppleganger/blob/main/codeSnippet.PNG)
 
-### Result
+### Result:
 
 Input image | DoppelGanger
 :---:|:---:
