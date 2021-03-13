@@ -62,8 +62,10 @@ This process is called ennrollment and has the following steps:
 4. Save the mapping between face ID and person
 5. Save the updated model  
   - Now save descriptors and the descriptor-label mapping to disk.
-`
-void enrollment(std::map<int, std::string>& labelNameMap, std::vector<matrix<float,0,1>>& faceDescriptors, std::vector<int>& faceLabels,
+ 
+code example:
+
+`void enrollment(std::map<int, std::string>& labelNameMap, std::vector<matrix<float,0,1>>& faceDescriptors, std::vector<int>& faceLabels,
                 frontal_face_detector& faceDetector, const shape_predictor& landmarkDetector, anet_type& net, std::map<int,std::string>& folderImageMap)
 {
 
@@ -139,9 +141,7 @@ void enrollment(std::map<int, std::string>& labelNameMap, std::vector<matrix<flo
 
     std::cout << "number of face descriptors " << faceDescriptors.size() << std::endl;
     std::cout << "number of face labels " << faceLabels.size() << std::endl;
-
-}
-`
+}`
 
 
 
