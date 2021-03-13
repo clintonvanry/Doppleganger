@@ -139,7 +139,49 @@ code snippet:
     std::cout << "number of face descriptors " << faceDescriptors.size() << std::endl;
     std::cout << "number of face labels " << faceLabels.size() << std::endl;
 
+The second process is called **testing** and has the following steps:
+1. Use the Network defined in the enrollment process
+2. Read the mapping between face id and person
+3. Read the face descriptors (from enrollment process)
+4. Use the models defined in the enrollment process namely Face Detector, Facial Landmark Detector and Face Recognition neural network objects
+5. Read the test images
+  - detect face in the test image
+  - retrieve the face descriptor for the test image
+  - Calculate Euclidean distance between face descriptors in query images versus face descriptors of enrolled images. Find the enrolled face for which distance is minimum. Dlib specifies that in general, if two face descriptor vectors have a Euclidean distance between them less than 0.6 then they are from the same person, otherwise they are from different people.
+  - This threshold will vary depending upon number of images enrolled and various variations (illumination, camera quality) between enrolled images and query image. We are using a threshold of 0.5.
+6. Find the corresponding person in the celeb enrollment process that has a similar index
+  - there should be a match to the collection of face id and person from the enrollment process
+8. display the doppelganger
 
+code snippet
+
+// Find closest face enrolled to face found in frame
+int label;
+float minDistance;
+nearestNeighbor(faceDescriptorQuery, faceDescriptors, faceLabels, label, minDistance);
+
+// Name of recognized person/celeb from map
+if(label > -1) // if we have found a label it will greater than 0
+{
+    name = labelNameMap[label];
+    celebName = celebs[name];
+    std::string imageCelebPath = folderImageMap[label];
+    Mat imCeleb = cv::imread(imageCelebPath, cv::IMREAD_COLOR);
+
+    //imshow(fileNames[fileNameIndex], im);
+    imageMap.push_back(std::make_pair(fileNames[fileNameIndex],im));
+    //imageMap[fileNames[fileNameIndex]] = im;
+    //imshow(celebName, imCeleb);
+    //imageMap[celebName] = imCeleb;
+    imageMap.push_back(std::make_pair(celebName,imCeleb));
+
+    std::cout << "foldername: " << name << std::endl;
+    std::cout << "celeb name:" << celebName << std::endl;
+    std::cout << "min Distance:" << minDistance << std::endl;
+}
+else{
+    std::cout << "no match found. min distance: " << minDistance << std::endl;
+}
 
 
 
