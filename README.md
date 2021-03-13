@@ -153,8 +153,9 @@ The second process is called **testing** and has the following steps:
   - there should be a match to the collection of face id and person from the enrollment process
 8. display the doppelganger
 
-code snippet
+code snippet:
 
+`
 // Find closest face enrolled to face found in frame
 int label;
 float minDistance;
@@ -179,10 +180,11 @@ if(label > -1) // if we have found a label it will greater than 0
     std::cout << "celeb name:" << celebName << std::endl;
     std::cout << "min Distance:" << minDistance << std::endl;
 }
-else{
+else
+{
     std::cout << "no match found. min distance: " << minDistance << std::endl;
 }
-
+`
 
 
 
