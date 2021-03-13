@@ -151,9 +151,11 @@ The second process is called **testing** and has the following steps:
   - This threshold will vary depending upon number of images enrolled and various variations (illumination, camera quality) between enrolled images and query image. We are using a threshold of 0.5.
 6. Find the corresponding person in the celeb enrollment process that has a similar index
   - there should be a match to the collection of face id and person from the enrollment process
-8. display the doppelganger
+7. display the doppelganger
+
 
 code snippet:
+
 ![](https://github.com/clintonvanry/Doppleganger/blob/main/codeSnippet.PNG)
 
 ### Result:
