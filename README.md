@@ -13,16 +13,17 @@ There are many datasets that contain images of celebrities. Some of them are:
 
 ## The Solution
 
-libraries used in the solution
+### libraries used in the solution
 - OpenCV
 - Dlib
 - Dlib models
   - face detections: shape predictor
   - face recognition: resnet
 
-## Technique
+### Technique
 We will be using deep learning with Dlib.
 In a traditional image classification pipeline, we converted the image into a feature vector ( or equivalently a point) in higher dimensional space. This was done by calculating the feature descriptor (e.g. HOG) for an image patch. Once the image was represented as a point in higher dimensional space, we could use a learning algorithm like SVM to partition the space using hyperplanes that separated points representing different classes.
 
 Even though on the surface Deep Learning looks very different from the above model, there are conceptual similarities. Figure 2 reveals the Deep Learning module used by Dlib’s Face Recognition module. The architecture is based on a popular network called ResNet.
+
 
