@@ -155,37 +155,6 @@ The second process is called **testing** and has the following steps:
 
 code snippet:
 
-`
-  // Find closest face enrolled to face found in frame
-  int label;
-  float minDistance;
-  nearestNeighbor(faceDescriptorQuery, faceDescriptors, faceLabels, label, minDistance);
-
-  // Name of recognized person/celeb from map
-  if(label > -1) // if we have found a label it will greater than 0
-  {
-      name = labelNameMap[label];
-      celebName = celebs[name];
-      std::string imageCelebPath = folderImageMap[label];
-      Mat imCeleb = cv::imread(imageCelebPath, cv::IMREAD_COLOR);
-
-      //imshow(fileNames[fileNameIndex], im);
-      imageMap.push_back(std::make_pair(fileNames[fileNameIndex],im));
-      //imageMap[fileNames[fileNameIndex]] = im;
-      //imshow(celebName, imCeleb);
-      //imageMap[celebName] = imCeleb;
-      imageMap.push_back(std::make_pair(celebName,imCeleb));
-
-      std::cout << "foldername: " << name << std::endl;
-      std::cout << "celeb name:" << celebName << std::endl;
-      std::cout << "min Distance:" << minDistance << std::endl;
-  }
-  else
-  {
-      std::cout << "no match found. min distance: " << minDistance << std::endl;
-  }
-
-`
 
 
 
